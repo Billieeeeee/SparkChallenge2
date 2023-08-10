@@ -1,6 +1,7 @@
 ﻿using Pagos.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -52,6 +53,39 @@ namespace Pagos.Controllers
                 return View();
             }
         }
+
+        // GET: Cliente/Edit/5
+        public ActionResult Edit(int id)
+        {
+            using (DbModels context = new DbModels())
+            {
+                return View(context.tblCliente.Where(x => x.idCliente == id).FirstOrDefault());//Nos traerá el primero por defecto que sea 5
+            }
+        }
+
+        // POST: Client/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id,  tblCliente cliente)
+        {
+            try
+            {
+                using(DbModels context = new DbModels())
+                {
+                    context.Entry(cliente).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+
 
     }
 }
