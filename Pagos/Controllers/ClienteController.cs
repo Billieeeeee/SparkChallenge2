@@ -36,10 +36,15 @@ namespace Pagos.Controllers
         }
 
         // POST: Cliente/Create
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(tblCliente cliente)
         {
             try
             {
+                using (DbModels context = new DbModels())
+                {
+                    context.tblCliente.Add(cliente);
+                    context.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             catch
