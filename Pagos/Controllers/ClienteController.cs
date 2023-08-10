@@ -21,17 +21,17 @@ namespace Pagos.Controllers
             }
         }
 
-        //GET: Cliente/Details/5
+        // GET: Cliente/Details/5
         public ActionResult Details (int id)
         {
             using(DbModels context = new DbModels())
             {
-                return View(context.tblCliente.Where(x => x.idCliente == id)); //los id's sean iguales
+                return View(context.tblCliente.Where(x => x.idCliente == id).FirstOrDefault()); //los id's sean iguales
             }
         }
 
         // GET: Cliente/Create
-        public ActionResult Create (int id)
+        public ActionResult Create ()
         {
             return View();
         }
