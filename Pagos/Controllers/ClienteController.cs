@@ -84,6 +84,35 @@ namespace Pagos.Controllers
             }
         }
 
+        // GET: Cliente/Delete/5
+        public ActionResult Delete(int id)
+        {
+            using (DbModels context = new DbModels())
+            {
+                return View(context.tblCliente.Where(x => x.idCliente == id).FirstOrDefault());//Nos traerá el primero por defecto que sea 5
+            }
+        }
+
+        // POST: Cliente/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, tblCliente Cliente)
+        {
+            try
+            {
+                using(DbModels context = new DbModels())
+                {
+                    Cliente = context.tblCliente.Where(x => x.idCliente == id).FirstOrDefault();
+                    context.tblCliente.Remove(Cliente);
+                    context.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
 
 
