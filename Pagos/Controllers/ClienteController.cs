@@ -124,6 +124,40 @@ namespace Pagos.Controllers
             }
         }
 
+        // GET: Cliente/Retiro/5
+        public ActionResult Retiro(int id)
+        {
+            using (DbModels context = new DbModels())
+            {
+                return View(context.tblCliente.Where(x => x.idCliente == id).FirstOrDefault());//Nos traerá el primero por defecto que sea 5
+            }
+        }
+
+        // POST: Cliente/Retiro/5
+        [HttpPost]
+        public ActionResult Retiro(int id,tblCliente cliente)
+        {
+            if (ModelState.IsValid)
+            {
+
+                using (DbModels context = new DbModels())
+                {
+                    var availableBalance = context.tblCliente.Find(cliente.idCliente);
+
+                    if (availableBalance != null)
+                    {
+                        availableBalance.saldo += cliente.deposito - cliente.retiro;
+                        context.Entry(availableBalance).State = EntityState.Modified;
+                        context.SaveChanges();
+
+                        return RedirectToAction("Index");
+                    }
+                }
+
+
+            }
+            return View(cliente);
+        }
 
 
 
