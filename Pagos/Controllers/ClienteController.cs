@@ -37,6 +37,7 @@ namespace Pagos.Controllers
         }
 
         // POST: Cliente/Create
+        [HttpPost]
         public ActionResult Create(tblCliente cliente)
         {
             try
