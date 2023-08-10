@@ -7,7 +7,7 @@ namespace Pagos.Models
 
     public partial class tblCliente
     {
-        [Display (Name = "#")]
+        [Display(Name = "#")]
         public int idCliente { get; set; }
 
         [Display(Name = "Nombre del cliente")]
@@ -20,5 +20,7 @@ namespace Pagos.Models
 
         [Display(Name = "Saldo del cliente")]
         public double saldo { get; set; }
+        public double deposito { get; set; }
+        public double retiro { get; set; }
     }
 }

@@ -44,6 +44,9 @@ namespace Pagos.Controllers
             {
                 using (DbModels context = new DbModels())
                 {
+                    //Sumar el saldo
+                    cliente.saldo += cliente.deposito;
+
                     context.tblCliente.Add(cliente);
                     context.SaveChanges();
                 }
@@ -66,23 +69,30 @@ namespace Pagos.Controllers
 
         // POST: Client/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id,  tblCliente cliente)
+        public ActionResult Edit(tblCliente cliente)
         {
-            try
-            {
-                using(DbModels context = new DbModels())
+            
+                if (ModelState.IsValid)
                 {
-                    context.Entry(cliente).State = EntityState.Modified;
-                    context.SaveChanges();
+
+                    using(DbModels context = new DbModels())
+                    {
+                        var availableBalance = context.tblCliente.Find(cliente.idCliente);
+
+                        if (availableBalance != null)
+                        {
+                            availableBalance.saldo += cliente.deposito - cliente.retiro;
+                            context.Entry(availableBalance).State = EntityState.Modified;
+                            context.SaveChanges();
+
+                            return RedirectToAction("Index");
+                        }
+                    }
+
+
                 }
-
-                return RedirectToAction("Index");
-
-            }
-            catch
-            {
-                return View();
-            }
+                return View(cliente);
+            
         }
 
         // GET: Cliente/Delete/5
